@@ -37,7 +37,7 @@ def prompt_openai(question, criteria):
     return result
 
 # Streamlit Interface
-st.title("CSV Column Check and Open Conditions Processor")
+st.title("Automatic Participants Approval")
 
 df = upload_csv()
 
