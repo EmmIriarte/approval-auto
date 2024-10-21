@@ -3,7 +3,7 @@ import pandas as pd
 from openai import OpenAI
 
 # Initialize OpenAI client
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='')
 
 def upload_csv():
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
