@@ -4,7 +4,7 @@ import os
 from openai import OpenAI
 
 # Initialize OpenAI client
-client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 def upload_csv():
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
