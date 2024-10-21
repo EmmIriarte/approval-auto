@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
+import os
 from openai import OpenAI
 
 # Initialize OpenAI client
-client = OpenAI(api_key='')
+client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 def upload_csv():
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
