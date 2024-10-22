@@ -25,9 +25,10 @@ def check_empty_conditions(df, columns, logical_operator):
 
 # Function to prompt OpenAI for approval based on custom criteria
 def prompt_openai(question, criteria):
-    prompt = f"You are an approval bot. Based on this question: '{question}', determine if this person meets the criteria: '{criteria}' and return either 'Yes' or 'No' and no other words before and after."
+    prompt = f"You are an approval bot. Based on this question or column title: '{question}', determine if this person meets the criteria: '{criteria}' and return either 'Yes' or 'No' and no other words before and after."
     
     print(f"Prompt sent to OpenAI: {prompt}")  # Log prompt to console
+
     response = client.chat.completions.create(model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "You are an approval bot."},
@@ -35,7 +36,8 @@ def prompt_openai(question, criteria):
     ],
     max_tokens=5,
     temperature=0)
-    result = response["choices"][0]["message"]["content"].strip()
+    
+    result = response.choices[0].message.content.strip()
     print(f"OpenAI response: {result}")  # Log AI response to console
     return result
 
