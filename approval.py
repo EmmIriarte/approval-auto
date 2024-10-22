@@ -28,10 +28,13 @@ def prompt_openai(question, criteria):
     prompt = f"You are an approval bot. Based on this question: '{question}', determine if this person meets the criteria: '{criteria}' and return either 'Yes' or 'No' and no other words before and after."
     
     print(f"Prompt sent to OpenAI: {prompt}")  # Log prompt to console
-
-    # Simulating the OpenAI call
-    response = {"choices": [{"message": {"content": "Yes"}}]}  # Mock response for testing
-    
+    response = client.chat.completions.create(model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are an approval bot."},
+        {"role": "user", "content": prompt}
+    ],
+    max_tokens=5,
+    temperature=0)
     result = response["choices"][0]["message"]["content"].strip()
     print(f"OpenAI response: {result}")  # Log AI response to console
     return result
@@ -132,10 +135,8 @@ if df is not None:
                             df.at[index, 'Approval'] = 'Yes'
                         print(f"Row {index}: OpenAI result: {result}")  # Log to console
         
-        # Step 3: Filter the DataFrame to include only rows with 'Approval' == 'Yes'
-        filtered_df = df[df['Approval'] == 'Yes']
-
-        # Display filtered CSV and provide download link
-        st.write("Filtered CSV with 'Yes' approvals only:", filtered_df)
-        csv_filtered = filtered_df.to_csv(index=False).encode('utf-8')
-        st.download_button("Download Approved Rows CSV", csv_filtered, "approved_rows.csv", "text/csv")
+        # Step 3: Display processed CSV and provide download link
+        st.write("Processing complete.")
+        st.write("Processed CSV:", df)
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button("Download Processed CSV", csv, "processed_file.csv", "text/csv")
