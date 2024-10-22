@@ -256,4 +256,3 @@ with tab2:
             st.info("There are no applications requiring manual check.")
     else:
         st.info("🚀 Please run the approval process in the **Approval Process** tab to enable download options.")
-        st.download_button("Download Processed CSV", csv, "processed_file.csv", "text/csv")
