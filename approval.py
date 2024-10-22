@@ -130,12 +130,18 @@ with tab1:
                 key=f"empty_cols_{i}"
             )
             if len(cols) > 1:
-                logic = st.radio(
-                    f"Logical Operator for Check {i+1}:",
-                    options=['AND', 'OR'],
+                # Updated Logical Operator Labels
+                logic_options = {
+                    "Reject if all selected columns are empty": "AND",
+                    "Reject if any selected column is empty": "OR"
+                }
+                logic_selection = st.radio(
+                    f"Condition for Check {i+1}:",
+                    options=list(logic_options.keys()),
                     index=0 if condition['logical_operator'] == 'AND' else 1,
                     key=f"empty_logic_{i}"
                 )
+                logic = logic_options[logic_selection]
             else:
                 logic = 'AND'  # Default logic when only one column is selected
 
@@ -150,6 +156,7 @@ with tab1:
 
         # Step 4: Add Open-ended Conditions
         st.subheader("✍️ Add Open-ended Conditions")
+
 
         def add_open_ended_condition():
             st.session_state.open_ended_conditions.append({'column': '', 'criteria': ''})
