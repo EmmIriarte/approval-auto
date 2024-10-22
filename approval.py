@@ -20,7 +20,6 @@ def check_empty_conditions(df, columns, logical_operator):
     elif logical_operator == 'OR':
         return df[columns].notnull().any(axis=1)
     else:
-        # Default fallback in case no operator is selected
         return df[columns[0]].notnull()
 
 # Function to prompt OpenAI for approval based on custom criteria
@@ -144,10 +143,17 @@ if df is not None:
         st.download_button("Download Processed CSV", csv, "processed_file.csv", "text/csv")
 
         # Step 4: Checkbox for column selection
+        if 'selected_columns' not in st.session_state:
+            st.session_state.selected_columns = df.columns.tolist()
+
         st.write("Select columns to include in custom download")
-        selected_columns = st.multiselect("Select Columns", df.columns.tolist(), default=df.columns.tolist())
+        selected_columns = st.multiselect("Select Columns", df.columns.tolist(), default=st.session_state.selected_columns)
+
+        # Update session state with current selection
+        if selected_columns:
+            st.session_state.selected_columns = selected_columns
 
         # Step 5: Button to download file with selected columns
         if st.button("Download Ready to Approve File"):
-            filtered_csv = df[selected_columns].to_csv(index=False).encode('utf-8')
+            filtered_csv = df[st.session_state.selected_columns].to_csv(index=False).encode('utf-8')
             st.download_button("Download Custom Columns CSV", filtered_csv, "custom_columns_file.csv", "text/csv")
