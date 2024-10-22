@@ -142,3 +142,12 @@ if df is not None:
         st.write("Processed CSV:", df)
         csv = df.to_csv(index=False).encode('utf-8')
         st.download_button("Download Processed CSV", csv, "processed_file.csv", "text/csv")
+
+        # Step 4: Checkbox for column selection
+        st.write("Select columns to include in custom download")
+        selected_columns = st.multiselect("Select Columns", df.columns.tolist(), default=df.columns.tolist())
+
+        # Step 5: Button to download file with selected columns
+        if st.button("Download Ready to Approve File"):
+            filtered_csv = df[selected_columns].to_csv(index=False).encode('utf-8')
+            st.download_button("Download Custom Columns CSV", filtered_csv, "custom_columns_file.csv", "text/csv")
